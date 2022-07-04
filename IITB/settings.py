@@ -26,7 +26,7 @@ SECRET_KEY = 'j=trdkhyi!s@vd7(_!my^hd7$r-of_njr$$4#q94h$hi)^ovs2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','iitb.nowastes.in']
 
 
 # Application definition
