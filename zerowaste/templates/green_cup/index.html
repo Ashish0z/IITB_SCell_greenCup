@@ -2,10 +2,12 @@
 {% load static %}{% load i18n %}
 
 {% block extra_css%}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
 <style>
 body {
     overflow-y: hidden;
 }
+
 .fixed-top-2 {
     margin-top: 3.4em;
 }
@@ -16,6 +18,7 @@ body {
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     background-image: url("");
+    color: #141414;
 }
 
 #cup_main section {
@@ -26,6 +29,10 @@ body {
     font-size: 15pt;
 }
 
+#cup_main section h3 {
+    font-family: "Oswald"; 
+}
+
 .demo-wrap {
   overflow: hidden;
   position: relative;
@@ -33,7 +40,7 @@ body {
 }
 
 .demo-bg {
-  opacity: 0.1;
+  opacity: 0.01;
   background-color: #8dffa6;
   position: absolute;
   left: 0;
@@ -47,6 +54,10 @@ body {
     border-bottom-color: #8dffa6;
     border-bottom-style: solid;
 
+}
+
+#navbar-2 .nav-link {
+    font-size: 1.2em;
 }
 
 #hosteldata .row {
@@ -67,9 +78,60 @@ body {
     font-size: 0.9em;
 }
 
+#hosteldata p {
+    font-size: 1.2em;
+    color: rgb(40, 48, 39);
+}
 
 #follow_links {
     font-size: 1.2em;
+}
+
+#about h3 {
+    padding-top: 4em;
+    padding-bottom: 1.5em;
+}
+
+#about p {
+    align-self: baseline;
+    line-height: 2.5em;
+}
+
+#rules li {
+    line-height: 2em;
+}
+
+#rules img {
+    height: 80%;
+    width: 100%;
+    padding-top: 5em;
+}
+
+#resources li {
+    line-height: 2em;
+}
+
+#home-container {
+    background-image: url("{% static 'images/logo.jpeg' %}");
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: contain;
+    height: 60%;
+    width: 60%;
+    padding-top: 5em;
+    font-family: "oswald";
+}
+
+#home-container p {
+    font-size: 2em;
+}
+
+#home-container h1 {
+    font-size: 4em;
+    padding-top: 4em; 
+    padding-bottom: 0.5em;
+    font-family: 'oswald'; 
+    color: #20ac3e;
 }
 </style>
 
@@ -78,8 +140,8 @@ body {
 <nav class="navbar fixed-top fixed-top-2 navbar-light bg-light" id = "navbar-2">
     <a class="navbar-brand" href="#">Green Cup</a>
     <ul class="nav nav-pills justify-content-end">
-        <li class = "nav-item" ><a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
-        <li class = "nav-item active" ><a class="nav-link" href="#about">About</a> </li>
+        <li class = "nav-item active" ><a class="nav-link" href="#home">Home </a> </li>
+        <li class = "nav-item" ><a class="nav-link" href="#about">About</a> </li>
         <li class = "nav-item" ><a class="nav-link" href="#rules">Rules</a> </li>
         <li class = "nav-item" ><a class="nav-link" href="#leaderboard">Leaderboard</a> </li>
         <li class = "nav-item" ><a class="nav-link" href="{% url 'green_cup_heatmap' %}">Hostelwise Map</a> </li>
@@ -117,31 +179,34 @@ body {
   >
 
 <div id="cup_main" data-spy="scroll" data-target="#navbar-2" data-offset="0" class="container-fluid">
-    <!-- <div id = "hero" style="background-url: {% static 'images/home.jpeg' %}">
-        <div class="hero-container">
-            <h1>Green Cup</h1>
+    <section id="home" class="row" data-sr>
+        <div id = "home-container" class="col-lg-12 text-center align-middle">
+            <h1>The Green Cup</h1>
+            <p>Sustainability Cell</p>
+            <p>IIT Bombay</p>
         </div>
-    </div>   -->
+    </section>
 
     <section id="about" class="row" data-sr>
         <div class="media align-content-center" >
-            <div class="col-lg-7 order-1">
+            <div class="col-lg-2 order-1">
                 <!-- <img src="{% static 'images/home.jpg' %}" class="img-fluid" alt=""> -->
             </div>
-            <div class="media-body col-lg-5 order-2 content" >
+            <div class="media-body col-lg-8 order-2 text-center content" >
                 <h3>{% trans "About Us" %}</h3>
                 <p class="font-italic">
                     {% trans "Welcome to the annual inter-hostel sustainability competition, The Green Cup, organized by the Sustainability Cell at the Indian Institute of Technology (IIT) Bombay! This competition is designed to evaluate various sustainability measures, such as waste reduction, electricity conservation, and eco-friendly practices, among the hostels on campus. At The Green Cup, we are committed to raising awareness about sustainable living and inspiring students to adopt environmentally friendly behaviors. By promoting healthy competition, The Green Cup fosters a sense of camaraderie and team spirit, helping to build a more sustainable campus community. We encourage all students to join in, bring their A-game, and help make IIT Bombay a shining example of sustainability. Together, we can create a more environmentally conscious campus and a better future for us all." %}
                 </p>
             </div>
+            <div class = "col-lg-2 order-3"></div>
         </div>
     </section>
 
     <section id="rules" class="row" data-sr>
-        <div class="col-lg-6 order-2" >
-            <!-- <img src="{% static 'images/hero-img.png' %}" class="img-fluid" alt=""> -->
+        <div class="col-lg-4 order-2 align-middle" >
+            <img src="{% static 'images/rules.jpeg' %}" class="img-fluid" alt="">
         </div>
-        <div class="col-lg-6 pt-4 pt-lg-0 order-1">
+        <div class="col-lg-8 pt-4 pt-lg-0 order-1">
             <h3>{% trans "Rules" %}</h3>
             <p class="font-italic">
                 {% trans "The Green Cup Index will be divided into two main parts:" %}
@@ -164,6 +229,7 @@ body {
                         {% trans "Green Cup Index (GCI) = Quantitative rating*0.6 + Qualitative Rating*0.4" %}
                     </li>
                 </ul>
+                Find more details in the link below: <a href = 'https://docs.google.com/document/d/1HOY9L0QX9hjrmL8lK18ZgvwsXVXN_Yxw5W6coE5irCU/edit?usp=drivesdk' >https://docs.google.com/document/d/1HOY9L0QX9hjrmL8lK18ZgvwsXVXN_Yxw5W6coE5irCU/edit?usp=drivesdk</a>
             </p>
         </div>
     </section>
@@ -172,40 +238,40 @@ body {
             <div class="col-lg-12 order-1">
                 <h3>{% trans "Leaderboard" %}</h3>
                 <div class="nav nav-tabs nav-fill">                        
-                    <a class="nav-link"  href="javascript:void(0)" onclick="openGraph(event, 'January');">
+                    <a class="nav-link"  href="javascript:void(0)" onclick="openGraph('January');">
                     January
                     </a>
-                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'Feburary');">
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph('Feburary');">
                     Feburary
                     </a>
-                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'March');">
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph('March');">
                     March
                     </a>
-                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'April');">
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph('April');">
                     April
                     </a>
-                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'May');">
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph('May');">
                     May
                     </a>
-                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'June');">
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph('June');">
                     June
                     </a>
-                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'July');">
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph('July');">
                     July
                     </a>
-                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'August');">
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph('August');">
                     August
                     </a>
-                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'September');">
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph('September');">
                     September
                     </a>
-                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'October');">
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph('October');">
                     October
                     </a>
-                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'November');">
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph('November');">
                     November
                     </a>
-                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'December');">
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph('December');">
                     December
                     </a>
                 </div>
@@ -214,10 +280,10 @@ body {
 
                 <div class = "row">
                     <div class = "col-lg-6 order-1" id = "graph-container">    
-                        <canvas id="myChart" height="200em"></canvas>
+                        <canvas id="myChart" height="205em"></canvas>
                     </div>
                     <div id="hosteldata" class="col-lg-6 order-2">
-                        <div class ="row">
+                        <div class ="row" style="padding-top: 1em">
                             <div class="col-12" id="hostel-name">
                                 <h4></h4>
                             </div>
@@ -259,14 +325,15 @@ body {
                     var data_scores = {{ dict1 | safe }};
 
                     var ctx = document.getElementById('myChart').getContext('2d');
-                    var bg = ctx.createLinearGradient(0, 0, 150, 0);
+                    var bg = ctx.createLinearGradient(0, 0, 200, 0);
                     bg.addColorStop(0, "rgba(0,100, 0, 1)");
-                    bg.addColorStop(1, "rgba(0,100, 0, 0.5)");
+                    bg.addColorStop(1, "rgba(0,100, 0, 0.4)");
 
                     const DATA_COUNT = 16;
                     const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 10};
 
-                    var month = 5;
+                    var month_active = 0;
+                    var hostel_active = 1;
                     var data = {
 
                     labels: data_scores.scores_list[0]['hostels'],
@@ -275,14 +342,7 @@ body {
                         label: 'Total Index',
                         data: [5.95, 5.57, 5.82, 6.32, 4.54, 6.01, 3.12, 8.10, 5.36, 5.76, 5.01, 8.17, 5.78, 5.48, 9.96,9.56],
                         backgroundColor: bg,
-                        //gradient 
                         },
-                        // {
-                        // label: 'Dataset 2',
-                        // data: Utils.numbers(NUMBER_CFG),
-                        // borderColor: Utils.CHART_COLORS.blue,
-                        // backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
-                        // }
                     ]
                     };
 
@@ -305,8 +365,43 @@ body {
                             
                         }
                     });
+
+                    function updateTable(hostel, i) {
+                        hostel_map  = {
+                            1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 9: 6, 10: 7, 11: 8, 12: 9, 13: 10, 14: 11, 15: 12, 16: 13, 17: 14, 18: 15};
+                        j = hostel_map[hostel]
+                        hostel_active = j;
+
+                        $('#hostel-name').html('<h4>Hostel ' + hostel + '</h4>');
+                        $('#Mess-dry-waste-kg').html('<h5>Mess dry waste (kg)</h5><p>' + data_scores.scores_list[i]['Mess dry waste(kg)'][j]) + '</p>';
+                        $('#Mess-wet-waste-kg').html('<h5>Mess wet waste (kg)</h5><p>' + data_scores.scores_list[i]['Mess wet waste(kg)'][j]) + '</p>';
+                        $('#Hostel-dry-waste-kg').html('<h5>Hostel dry waste (kg)</h5><p>' + data_scores.scores_list[i]['Hostel dry waste(kg)'][j]) + '</p>';
+                        $('#Hostel-wet-waste-kg').html('<h5>Hostel wet waste (kg)</h5><p>' + data_scores.scores_list[i]['Hostel wet waste(kg)'][j]) + '</p>';
+                        $('#Hostel-E-waste-kg').html('<h5>Hostel E waste (kg)</h5><p>' + data_scores.scores_list[i]['Hostel E waste(kg)'][j]) + '</p>';
+                        $('#Electricity-Consumption-unit').html('<h5>Electricity Consumption (unit)</h5><p>' + data_scores.scores_list[i]['Electricity Consumption(unit)'][j]) + '</p>';
+                        
+                        $('#Mess-dry-waste-kg-capita').html('<h5>Mess dry waste (kg/capita)</h5><p>' + data_scores.scores_list[i]['Mess dry waste(kg/capita)'][j]) + '</p>';
+                        $('#Mess-wet-waste-kg-capita').html('<h5>Mess wet waste (kg/capita)</h5><p>' + data_scores.scores_list[i]['Mess wet waste(kg/capita)'][j]) + '</p>';
+                        $('#Hostel-dry-waste-kg-capita').html('<h5>Hostel dry waste (kg/capita)</h5><p>' + data_scores.scores_list[i]['Hostel dry waste(kg/capita)'][j]) + '</p>';
+                        $('#Hostel-wet-waste-kg-capita').html('<h5>Hostel wet waste (kg/capita)</h5><p>' + data_scores.scores_list[i]['Hostel wet waste(kg/capita)'][j]) + '</p>';
+                        $('#Hostel-E-waste-kg-capita').html('<h5>Hostel E waste (kg/capita)</h5><p>' + data_scores.scores_list[i]['Hostel E waste(kg/capita)'][j]) + '</p>';
+                        $('#Electricity-Consumption-unit-capita').html('<h5>Electricity Consumption (unit/capita)</h5><p>' + data_scores.scores_list[i]['Electricity Consumption(unit/capita)'][j]) + '</p>';
+                        
+                        $('#Index-for-mess-dry-waste').html('<h5>Index of Mess dry waste</h5><p>' + data_scores.scores_list[i]['Index for mess dry waste'][j]) + '</p>';
+                        $('#Index-for-Mess-Wet-waste').html('<h5>Index of Mess wet waste</h5><p>' + data_scores.scores_list[i]['Index for Mess Wet waste'][j]) + '</p>';
+                        $('#Index-for-Hostel-dry-waste').html('<h5>Index of Hostel dry waste</h5><p>' + data_scores.scores_list[i]['Index for Hostel dry waste'][j]) + '</p>';
+                        $('#Index-for-Hostel-wet-waste').html('<h5>Index of Hostel wet waste</h5><p>' + data_scores.scores_list[i]['Index for Hostel wet waste'][j]) + '</p>';
+                        $('#Index-for-hostel-E-waste').html('<h5>Index of Hostel E waste</h5><p>' + data_scores.scores_list[i]['Index for hostel E waste'][j]) + '</p>';
+                        $('#Index-for-electricity').html('<h5>Index of Electricity Consumption</h5><p>' + data_scores.scores_list[i]['Index for electricity'][j]) + '</p>';
+
+                        $('#bins-placement').html('<h5>bins placement</h5><p>' + data_scores.scores_list[i]['Hostel Waste Segregation System (bins placement)'][j]) + '</p>';
+                        $('#effective-segregation').html('<h5>effective segregation</h5><p>' + data_scores.scores_list[i]['Hostel Waste Segregation system(effective segregation)'][j]) + '</p>';
+                        $('#No-of-residents').html('<h5>No of residents</h5><p>' + data_scores.scores_list[i]['No of residents'][j]);
+
+                        $('#Total-Index').html('<h5>Total Index</h5><p>' + data_scores.scores_list[i]['Total Index'][j]) + '</p>';
+                    }
                     
-                    function openGraph(evt, month) {
+                    function openGraph(month) {
                         var map_month = {
                             'January': 0,
                             'Feburary': 1,
@@ -322,6 +417,7 @@ body {
                             'December': 11
 
                         }
+                        month_active = map_month[month]; 
                         active_data = data_scores.scores_list[map_month[month]]
                         data = {
                         labels: data_scores.scores_list[0]['hostels'],
@@ -335,41 +431,12 @@ body {
                         }
                         myChart.data = data;
                         myChart.update();
+
+                        updateTable(hostel_active, map_month[month]);
+
                     }
 
-                    function updateTable(hostel, i) {
-                        hostel_map  = {
-                            1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 9: 6, 10: 7, 11: 8, 12: 9, 13: 10, 14: 11, 15: 12, 16: 13, 17: 14, 18: 15};
-                        j = hostel_map[hostel]
-
-                        $('#hostel-name').html('<h4>Hostel ' + hostel + '</h4>');
-                        $('#Mess-dry-waste-kg').html('<h5>Mess dry waste (kg)</h5>' + data_scores.scores_list[i]['Mess dry waste(kg)'][j]);
-                        $('#Mess-wet-waste-kg').html('<h5>Mess wet waste (kg)</h5>' + data_scores.scores_list[i]['Mess wet waste(kg)'][j]);
-                        $('#Hostel-dry-waste-kg').html('<h5>Hostel dry waste (kg)</h5>' + data_scores.scores_list[i]['Hostel dry waste(kg)'][j]);
-                        $('#Hostel-wet-waste-kg').html('<h5>Hostel wet waste (kg)</h5>' + data_scores.scores_list[i]['Hostel wet waste(kg)'][j]);
-                        $('#Hostel-E-waste-kg').html('<h5>Hostel E waste (kg)</h5>' + data_scores.scores_list[i]['Hostel E waste(kg)'][j]);
-                        $('#Electricity-Consumption-unit').html('<h5>Electricity Consumption (unit)</h5>' + data_scores.scores_list[i]['Electricity Consumption(unit)'][j]);
-                        
-                        $('#Mess-dry-waste-kg-capita').html('<h5>Mess dry waste (kg/capita)</h5>' + data_scores.scores_list[i]['Mess dry waste(kg/capita)'][j]);
-                        $('#Mess-wet-waste-kg-capita').html('<h5>Mess wet waste (kg/capita)</h5>' + data_scores.scores_list[i]['Mess wet waste(kg/capita)'][j]);
-                        $('#Hostel-dry-waste-kg-capita').html('<h5>Hostel dry waste (kg/capita)</h5>' + data_scores.scores_list[i]['Hostel dry waste(kg/capita)'][j]);
-                        $('#Hostel-wet-waste-kg-capita').html('<h5>Hostel wet waste (kg/capita)</h5>' + data_scores.scores_list[i]['Hostel wet waste(kg/capita)'][j]);
-                        $('#Hostel-E-waste-kg-capita').html('<h5>Hostel E waste (kg/capita)</h5>' + data_scores.scores_list[i]['Hostel E waste(kg/capita)'][j]);
-                        $('#Electricity-Consumption-unit-capita').html('<h5>Electricity Consumption (unit/capita)</h5>' + data_scores.scores_list[i]['Electricity Consumption(unit/capita)'][j]);
-                        
-                        $('#Index-for-mess-dry-waste').html('<h5>Index of Mess dry waste</h5>' + data_scores.scores_list[i]['Index for mess dry waste'][j]);
-                        $('#Index-for-Mess-Wet-waste').html('<h5>Index of Mess wet waste</h5>' + data_scores.scores_list[i]['Index for Mess Wet waste'][j]);
-                        $('#Index-for-Hostel-dry-waste').html('<h5>Index of Hostel dry waste</h5>' + data_scores.scores_list[i]['Index for Hostel dry waste'][j]);
-                        $('#Index-for-Hostel-wet-waste').html('<h5>Index of Hostel wet waste</h5>' + data_scores.scores_list[i]['Index for Hostel wet waste'][j]);
-                        $('#Index-for-hostel-E-waste').html('<h5>Index of Hostel E waste</h5>' + data_scores.scores_list[i]['Index for hostel E waste'][j]);
-                        $('#Index-for-electricity').html('<h5>Index of Electricity Consumption</h5>' + data_scores.scores_list[i]['Index for electricity'][j]);
-
-                        $('#bins-placement').html('<h5>bins placement</h5>' + data_scores.scores_list[i]['Hostel Waste Segregation System (bins placement)'][j]);
-                        $('#effective-segregation').html('<h5>effective segregation</h5>' + data_scores.scores_list[i]['Hostel Waste Segregation system(effective segregation)'][j]);
-                        $('#No-of-residents').html('<h5>No of residents</h5>' + data_scores.scores_list[i]['No of residents'][j]);
-
-                        $('#Total-Index').html('<h5>Total Index</h5>' + data_scores.scores_list[i]['Total Index'][j]);
-                    }
+                    openGraph('January');
                     
                     document.getElementById("myChart").onclick = function(evt){
                         var activePoints = myChart.getElementsAtEvent(evt);
@@ -377,7 +444,7 @@ body {
                         var label = myChart.data.labels[firstPoint._index];
                         var value = myChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
                         console.log(label, value);
-                        i = month;
+                        i = month_active;
                         hostel_map = {
                             'Hostel 1': 0,
                             'Hostel 2': 1,
@@ -399,7 +466,7 @@ body {
                         ele = document.getElementById('hosteldata')
                         j = hostel_map[label];
                         
-                        updateTable(j+1, month);
+                        updateTable(j+1, month_active);
                     };
                 </script>  
                 </div>
@@ -408,10 +475,10 @@ body {
     </section>
 
     <section id="resources" class="row" data-sr>
-        <div class="col-lg-6 order-2">
+        <!-- <div class="col-lg-4 order-2">
             <img src="{% static 'images/hero-img.png' %}" class="img-fluid" alt="">
-        </div>
-        <div class="col-lg-6 order-1">
+        </div> -->
+        <div class="col-lg-11 order-1">
             <h3>{% trans "Resources" %}</h3>
             <p class="font-italic">
                 <ul>
@@ -472,9 +539,11 @@ body {
     </section>
 
     <section id="contact" class="row" data-sr>
+        <div class = 'col-lg-3 order-1'></div>
+        <div class = 'col-lg-8 order-2'>
         <div classs = 'row'>
-        <div class="col-lg-7 order-1">
-            <h3>{% trans "Contact Us" %}</h3>
+        <div class="col-lg-8 order-2">
+            <h3 style="padding-bottom: 2em">{% trans "Contact Us" %}</h3>
             
             <form id = "contact-form">
                 <div class="form-group">
@@ -494,28 +563,30 @@ body {
             </form>
         </div>
         </div>
-        <div class = 'row'>
-        <div class="col-lg-7 order-2">
+        <div class = 'row align-items-center'>
+        <div class="col-lg-8 order-2" style="padding-top: 2em">
             <p class="font-italic" style="text-align: center;">
                 {% trans "Your input is valuable to us, and we appreciate hearing from you. We're constantly striving to improve, so please don't hesitate to share any feedback you have about our website or anything else we do. If you have any questions or would like to contribute to the planning of the Green Cup, feel free to get in touch with us." %}
             </p>
         </div>
-        <div class="col-lg-7 order-3" style = "margin-left: 20em;">
+        <div class="col-lg-8 order-3 text-center">
             <p id = "follow_links">
             {% trans "Follow us on:" %}
                 <a href="https://www.instagram.com/sustainabilitycell/" target="_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
                         <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
                     </svg>
                 </a>
                 <a href="https://www.linkedin.com/company/sustainabilitycell/" target="_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
                         <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
                     </svg>
                 </a>
             </p>
         </div>
         </div>
+        </div>
+        <div class = 'col-lg-3 order-3'></div>
             <script>
                 $(document).ready(function() {
                     $('#contact-form').submit(function(e) {
@@ -545,7 +616,7 @@ body {
 $('#cup_main').scrollspy({ target: '#navbar-2' });
 var div_array = document.querySelectorAll('#cup_main > div');
 
-window.sr = ScrollReveal({reset: true});
+window.sr = ScrollReveal({reset: true, container: '#cup_main'});
 
 sr.reveal(div_array, {
     duration: 1000,
@@ -554,7 +625,7 @@ sr.reveal(div_array, {
     reset: true,
     easing: 'ease-in-out',
     viewFactor: 0.2,
-    container: '#cup_main'
+    
 });
 
 
