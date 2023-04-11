@@ -6,6 +6,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
+import csv, json
 
 import pandas as pd
 import psycopg2
@@ -249,4 +250,75 @@ def Grievance(request):
 
         return render(request, "grievance_form.html", {'form': form_class})
 
+def readScore():
+    
+    
+    months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    list_of_scores = []
+    for k in range(len(months)):
+        file = staticfiles_storage.path('Scoring Sheet - '+months[k]+'.csv')
+        scores = {
+            'hostels': ['Hostel 1', 'Hostel 2', 'Hostel 3', 'Hostel 4', 'Hostel 5', 'Hostel 6', 'Hostel 9', 'Hostel 10', 'Hostel 11', 'Hostel 12', 'Hostel 13', 'Hostel 14', 'Hostel 15', 'Hostel 16', 'Hostel 17', 'Hostel 18'],
+            'Total Index': [],
+            'Mess dry waste(kg)': [],
+            'Mess wet waste(kg)': [],	
+            'Hostel dry waste(kg)': [],	
+            'Hostel wet waste(kg)': [],	
+            'Hostel E waste(kg)': [],	
+            'Electricity Consumption(unit)': [],	
+            'Mess dry waste(kg/capita)': [],	
+            'Mess wet waste(kg/capita)': [],	
+            'Hostel dry waste(kg/capita)': [],    	
+            'Hostel wet waste(kg/capita)': [],	
+            'Hostel E waste(kg/capita)': [],	
+            'Electricity Consumption(unit/capita)': [],	
+            'Hostel Waste Segregation System (bins placement)': [],
+            'Hostel Waste Segregation system(effective segregation)': [],
+            'No of residents': [],	
+            'Index for mess dry waste': [],	
+            'Index for Mess Wet waste': [],	
+            'Index for Hostel dry waste': [],	
+            'Index for Hostel wet waste': [],	
+            'Index for hostel E waste': [],	
+            'Index for electricity' : []
+        }
+        with open(file, 'r') as f:
+            reader = csv.reader(f)
+            data = list(reader)
+            totalIndex = data[3:19]
+            for i in range(len(totalIndex)):
+                scores['Total Index'].append(totalIndex[i][-1])
+                scores['Mess dry waste(kg)'].append(totalIndex[i][1])
+                scores['Mess wet waste(kg)'].append(totalIndex[i][2])
+                scores['Hostel dry waste(kg)'].append(totalIndex[i][3])
+                scores['Hostel wet waste(kg)'].append(totalIndex[i][4])
+                scores['Hostel E waste(kg)'].append(totalIndex[i][5])
+                scores['Electricity Consumption(unit)'].append(totalIndex[i][6])
+                scores['Mess dry waste(kg/capita)'].append(totalIndex[i][7])
+                scores['Mess wet waste(kg/capita)'].append(totalIndex[i][8])
+                scores['Hostel dry waste(kg/capita)'].append(totalIndex[i][9])
+                scores['Hostel wet waste(kg/capita)'].append(totalIndex[i][10])
+                scores['Hostel E waste(kg/capita)'].append(totalIndex[i][11])
+                scores['Electricity Consumption(unit/capita)'].append(totalIndex[i][12])
+                scores['Hostel Waste Segregation System (bins placement)'].append(totalIndex[i][13])
+                scores['Hostel Waste Segregation system(effective segregation)'].append(totalIndex[i][14])
+                scores['No of residents'].append(totalIndex[i][15])
+                scores['Index for mess dry waste'].append(totalIndex[i][16])
+                scores['Index for Mess Wet waste'].append(totalIndex[i][17])
+                scores['Index for Hostel dry waste'].append(totalIndex[i][18])
+                scores['Index for Hostel wet waste'].append(totalIndex[i][19])
+                scores['Index for hostel E waste'].append(totalIndex[i][20])
+                scores['Index for electricity'].append(totalIndex[i][21])
 
+        list_of_scores.append(scores)
+    return list_of_scores
+
+
+def GreenCup(request):
+        context = {
+            'dict1': json.dumps({'scores_list': readScore()})
+        }
+        return render(request, "green_cup/index.html", context)
+
+def GreenCupMap(request):
+        return render(request, "green_cup/map_base.html")

@@ -11,6 +11,8 @@ urlpatterns = [
     path('show/',views.show, name='show'),  
     path('graphs/',views.Graphs, name='graphs'),  
     path('grievance/',views.Grievance, name = 'grievance'),
+    path('green_cup/',views.GreenCup, name = 'green_cup'),
+    path('green_cup_heatmap', views.GreenCupMap, name='green_cup_heatmap'),
     path('edit/<int:id>', views.edit),  
     #path('update/<int:id>', views.update),  
     path('delete/<int:id>', views.destroy),  

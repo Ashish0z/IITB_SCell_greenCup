@@ -1,0 +1,563 @@
+{% extends 'base.html' %}
+{% load static %}{% load i18n %}
+
+{% block extra_css%}
+<style>
+body {
+    overflow-y: hidden;
+}
+.fixed-top-2 {
+    margin-top: 3.4em;
+}
+
+#cup_main {
+    height: calc(100vh - 50px);
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    background-image: url("");
+}
+
+#cup_main section {
+    scroll-snap-align: start;
+    height: 100%;
+    width: 100%;
+    padding-top: 7em;
+    font-size: 15pt;
+}
+
+.demo-wrap {
+  overflow: hidden;
+  position: relative;
+  
+}
+
+.demo-bg {
+  opacity: 0.1;
+  background-color: #8dffa6;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+}
+
+#navbar-2 .active {
+    border-bottom: 0.3em;
+    border-bottom-color: #8dffa6;
+    border-bottom-style: solid;
+
+}
+
+#hosteldata .row {
+    border-bottom: 0.1em; 
+    border-bottom-color: #141414;
+    border-bottom-style: inset;
+}
+
+#hosteldata .row:last-child, #hosteldata .row:first-child {
+    border-bottom: 0;
+}
+
+#hosteldata .row:first-child {
+    margin-bottom: 1em;
+}
+
+#hosteldata h5 {
+    font-size: 0.9em;
+}
+
+
+#follow_links {
+    font-size: 1.2em;
+}
+</style>
+
+{% endblock %} {% block content %}
+
+<nav class="navbar fixed-top fixed-top-2 navbar-light bg-light" id = "navbar-2">
+    <a class="navbar-brand" href="#">Green Cup</a>
+    <ul class="nav nav-pills justify-content-end">
+        <li class = "nav-item" ><a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
+        <li class = "nav-item active" ><a class="nav-link" href="#about">About</a> </li>
+        <li class = "nav-item" ><a class="nav-link" href="#rules">Rules</a> </li>
+        <li class = "nav-item" ><a class="nav-link" href="#leaderboard">Leaderboard</a> </li>
+        <li class = "nav-item" ><a class="nav-link" href="{% url 'green_cup_heatmap' %}">Hostelwise Map</a> </li>
+        <li class = "nav-item" ><a class="nav-link" href="#resources">Resources</a> </li>
+        <li class = "nav-item" ><a class="nav-link" href="#events">Events</a> </li>
+        <li class = "nav-item" ><a class="nav-link" href="#contact">Contact Us</a> </li>
+    </ul>
+</nav>
+
+<script>
+    $(".nav-item").on("click", function() {
+        $(".nav-item").removeClass("active");
+        $(this).addClass("active");
+    });
+
+    $(".nav-link").on('click', function(event) {
+        el = $(this).attr('href');
+        if (el != "{% url 'green_cup_heatmap' %}"){
+            event.preventDefault();
+        }
+        current_scroll = $('#cup_main').scrollTop();
+        scroll_to = $(el).offset().top + current_scroll;
+
+        $('#cup_main').animate({
+            scrollTop: scroll_to
+        }, 100);
+    });
+</script>
+
+<div class="demo-wrap">
+  <img
+    class="demo-bg"
+    src="{% static 'images/home.jpg' %}"
+    alt=""
+  >
+
+<div id="cup_main" data-spy="scroll" data-target="#navbar-2" data-offset="0" class="container-fluid">
+    <!-- <div id = "hero" style="background-url: {% static 'images/home.jpeg' %}">
+        <div class="hero-container">
+            <h1>Green Cup</h1>
+        </div>
+    </div>   -->
+
+    <section id="about" class="row" data-sr>
+        <div class="media align-content-center" >
+            <div class="col-lg-7 order-1">
+                <!-- <img src="{% static 'images/home.jpg' %}" class="img-fluid" alt=""> -->
+            </div>
+            <div class="media-body col-lg-5 order-2 content" >
+                <h3>{% trans "About Us" %}</h3>
+                <p class="font-italic">
+                    {% trans "Welcome to the annual inter-hostel sustainability competition, The Green Cup, organized by the Sustainability Cell at the Indian Institute of Technology (IIT) Bombay! This competition is designed to evaluate various sustainability measures, such as waste reduction, electricity conservation, and eco-friendly practices, among the hostels on campus. At The Green Cup, we are committed to raising awareness about sustainable living and inspiring students to adopt environmentally friendly behaviors. By promoting healthy competition, The Green Cup fosters a sense of camaraderie and team spirit, helping to build a more sustainable campus community. We encourage all students to join in, bring their A-game, and help make IIT Bombay a shining example of sustainability. Together, we can create a more environmentally conscious campus and a better future for us all." %}
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="rules" class="row" data-sr>
+        <div class="col-lg-6 order-2" >
+            <!-- <img src="{% static 'images/hero-img.png' %}" class="img-fluid" alt=""> -->
+        </div>
+        <div class="col-lg-6 pt-4 pt-lg-0 order-1">
+            <h3>{% trans "Rules" %}</h3>
+            <p class="font-italic">
+                {% trans "The Green Cup Index will be divided into two main parts:" %}
+                <ul>
+                    <li> 
+                        {% trans "Quantitative: This will contribute to 60% of the grading of the index. Quantitative data would include the day-to-day data of waste, electricity and energy. The basic bulk data will be directly captured from the responsible authorities." %}
+                        <ul>
+                            <li>{% trans "Waste: PHO" %} </li>
+                            <li>{% trans "Electricity: EMD" %} </li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        {% trans "Qualitative: This will contribute to 40% of the grading of the index. Grading in this section will be done on the basis of a report submitted by hostels at the end of the GC. Grading of this section will be done by Sustainability Cell based on a set of scoring guidelines. The report needs to be detailed, easy to understand and must include proofs of inclusions.Bonus points will be given to hostels if they report additional data obtained from different sources in their respective hostels with proof. Bonus reporting criterias are predefined and mentioned later in the document." %}
+                    </li>
+                    <li>
+                        {% trans "Rating = Mandatory Indicator scores + Bonus Indicator scoresSummation of mandatory credits" %}
+                    </li>
+                    <li>
+                        {% trans "Green Cup Index (GCI) = Quantitative rating*0.6 + Qualitative Rating*0.4" %}
+                    </li>
+                </ul>
+            </p>
+        </div>
+    </section>
+    
+    <section id="leaderboard" class="row" data-sr>
+            <div class="col-lg-12 order-1">
+                <h3>{% trans "Leaderboard" %}</h3>
+                <div class="nav nav-tabs nav-fill">                        
+                    <a class="nav-link"  href="javascript:void(0)" onclick="openGraph(event, 'January');">
+                    January
+                    </a>
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'Feburary');">
+                    Feburary
+                    </a>
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'March');">
+                    March
+                    </a>
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'April');">
+                    April
+                    </a>
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'May');">
+                    May
+                    </a>
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'June');">
+                    June
+                    </a>
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'July');">
+                    July
+                    </a>
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'August');">
+                    August
+                    </a>
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'September');">
+                    September
+                    </a>
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'October');">
+                    October
+                    </a>
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'November');">
+                    November
+                    </a>
+                    <a class="nav-link" href="javascript:void(0)" onclick="openGraph(event, 'December');">
+                    December
+                    </a>
+                </div>
+                <!-- include charts.js-->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+                <div class = "row">
+                    <div class = "col-lg-6 order-1" id = "graph-container">    
+                        <canvas id="myChart" height="200em"></canvas>
+                    </div>
+                    <div id="hosteldata" class="col-lg-6 order-2">
+                        <div class ="row">
+                            <div class="col-12" id="hostel-name">
+                                <h4></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2" id = "Mess-dry-waste-kg"></div>
+                            <div class="col-2" id = "Mess-wet-waste-kg"></div>
+                            <div class="col-2" id = "Hostel-dry-waste-kg"></div>
+                            <div class="col-2" id = "Hostel-wet-waste-kg"></div>
+                            <div class="col-2" id = "Hostel-E-waste-kg"></div>
+                            <div class="col-2" id = "Electricity-Consumption-unit"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2" style = "overflow: hidden" id = "Mess-dry-waste-kg-capita"></div>
+                            <div class="col-2" style = "overflow: hidden" id = "Mess-wet-waste-kg-capita"></div>
+                            <div class="col-2" style = "overflow: hidden" id = "Hostel-dry-waste-kg-capita"></div>
+                            <div class="col-2" style = "overflow: hidden" id = "Hostel-wet-waste-kg-capita"></div>
+                            <div class="col-2" style = "overflow: hidden" id = "Hostel-E-waste-kg-capita"></div>
+                            <div class="col-2" style = "overflow: hidden" id = "Electricity-Consumption-unit-capita"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2" id = "Index-for-mess-dry-waste"></div>
+                            <div class="col-2" id = "Index-for-Mess-Wet-waste"></div>
+                            <div class="col-2" id = "Index-for-Hostel-dry-waste"></div>
+                            <div class="col-2" id = "Index-for-Hostel-wet-waste"></div>
+                            <div class="col-2" id = "Index-for-hostel-E-waste"></div>
+                            <div class="col-2" id = "Index-for-electricity"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4"  id = "bins-placement"></div>
+                            <div class="col-4"  id = "effective-segregation"></div>
+                            <div class="col-4"  id = "No-of-residents"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12" id = "Total-Index"></div>
+                        </div>
+                    </div>
+                <script>       
+                    var data_scores = {{ dict1 | safe }};
+
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var bg = ctx.createLinearGradient(0, 0, 150, 0);
+                    bg.addColorStop(0, "rgba(0,100, 0, 1)");
+                    bg.addColorStop(1, "rgba(0,100, 0, 0.5)");
+
+                    const DATA_COUNT = 16;
+                    const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 10};
+
+                    var month = 5;
+                    var data = {
+
+                    labels: data_scores.scores_list[0]['hostels'],
+                    datasets: [
+                        {
+                        label: 'Total Index',
+                        data: [5.95, 5.57, 5.82, 6.32, 4.54, 6.01, 3.12, 8.10, 5.36, 5.76, 5.01, 8.17, 5.78, 5.48, 9.96,9.56],
+                        backgroundColor: bg,
+                        //gradient 
+                        },
+                        // {
+                        // label: 'Dataset 2',
+                        // data: Utils.numbers(NUMBER_CFG),
+                        // borderColor: Utils.CHART_COLORS.blue,
+                        // backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
+                        // }
+                    ]
+                    };
+
+                    var myChart = new Chart(ctx, {
+                        type: 'horizontalBar',
+                        data: data,
+                        options: {
+                            indexAxis: 'y',
+                            elements: {
+                                bar: {
+                                    borderWidth: 4,
+                                }
+                            },
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                },
+                            },
+                            
+                        }
+                    });
+                    
+                    function openGraph(evt, month) {
+                        var map_month = {
+                            'January': 0,
+                            'Feburary': 1,
+                            'March': 2,
+                            'April': 3,
+                            'May': 4,
+                            'June': 5,
+                            'July': 6,
+                            'August': 7,
+                            'September': 8,
+                            'October': 9,
+                            'November': 10,
+                            'December': 11
+
+                        }
+                        active_data = data_scores.scores_list[map_month[month]]
+                        data = {
+                        labels: data_scores.scores_list[0]['hostels'],
+                            datasets: [
+                                {
+                                label: 'Total Index',
+                                data: active_data['Total Index'],
+                                backgroundColor: bg
+                                },
+                        ]
+                        }
+                        myChart.data = data;
+                        myChart.update();
+                    }
+
+                    function updateTable(hostel, i) {
+                        hostel_map  = {
+                            1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 9: 6, 10: 7, 11: 8, 12: 9, 13: 10, 14: 11, 15: 12, 16: 13, 17: 14, 18: 15};
+                        j = hostel_map[hostel]
+
+                        $('#hostel-name').html('<h4>Hostel ' + hostel + '</h4>');
+                        $('#Mess-dry-waste-kg').html('<h5>Mess dry waste (kg)</h5>' + data_scores.scores_list[i]['Mess dry waste(kg)'][j]);
+                        $('#Mess-wet-waste-kg').html('<h5>Mess wet waste (kg)</h5>' + data_scores.scores_list[i]['Mess wet waste(kg)'][j]);
+                        $('#Hostel-dry-waste-kg').html('<h5>Hostel dry waste (kg)</h5>' + data_scores.scores_list[i]['Hostel dry waste(kg)'][j]);
+                        $('#Hostel-wet-waste-kg').html('<h5>Hostel wet waste (kg)</h5>' + data_scores.scores_list[i]['Hostel wet waste(kg)'][j]);
+                        $('#Hostel-E-waste-kg').html('<h5>Hostel E waste (kg)</h5>' + data_scores.scores_list[i]['Hostel E waste(kg)'][j]);
+                        $('#Electricity-Consumption-unit').html('<h5>Electricity Consumption (unit)</h5>' + data_scores.scores_list[i]['Electricity Consumption(unit)'][j]);
+                        
+                        $('#Mess-dry-waste-kg-capita').html('<h5>Mess dry waste (kg/capita)</h5>' + data_scores.scores_list[i]['Mess dry waste(kg/capita)'][j]);
+                        $('#Mess-wet-waste-kg-capita').html('<h5>Mess wet waste (kg/capita)</h5>' + data_scores.scores_list[i]['Mess wet waste(kg/capita)'][j]);
+                        $('#Hostel-dry-waste-kg-capita').html('<h5>Hostel dry waste (kg/capita)</h5>' + data_scores.scores_list[i]['Hostel dry waste(kg/capita)'][j]);
+                        $('#Hostel-wet-waste-kg-capita').html('<h5>Hostel wet waste (kg/capita)</h5>' + data_scores.scores_list[i]['Hostel wet waste(kg/capita)'][j]);
+                        $('#Hostel-E-waste-kg-capita').html('<h5>Hostel E waste (kg/capita)</h5>' + data_scores.scores_list[i]['Hostel E waste(kg/capita)'][j]);
+                        $('#Electricity-Consumption-unit-capita').html('<h5>Electricity Consumption (unit/capita)</h5>' + data_scores.scores_list[i]['Electricity Consumption(unit/capita)'][j]);
+                        
+                        $('#Index-for-mess-dry-waste').html('<h5>Index of Mess dry waste</h5>' + data_scores.scores_list[i]['Index for mess dry waste'][j]);
+                        $('#Index-for-Mess-Wet-waste').html('<h5>Index of Mess wet waste</h5>' + data_scores.scores_list[i]['Index for Mess Wet waste'][j]);
+                        $('#Index-for-Hostel-dry-waste').html('<h5>Index of Hostel dry waste</h5>' + data_scores.scores_list[i]['Index for Hostel dry waste'][j]);
+                        $('#Index-for-Hostel-wet-waste').html('<h5>Index of Hostel wet waste</h5>' + data_scores.scores_list[i]['Index for Hostel wet waste'][j]);
+                        $('#Index-for-hostel-E-waste').html('<h5>Index of Hostel E waste</h5>' + data_scores.scores_list[i]['Index for hostel E waste'][j]);
+                        $('#Index-for-electricity').html('<h5>Index of Electricity Consumption</h5>' + data_scores.scores_list[i]['Index for electricity'][j]);
+
+                        $('#bins-placement').html('<h5>bins placement</h5>' + data_scores.scores_list[i]['Hostel Waste Segregation System (bins placement)'][j]);
+                        $('#effective-segregation').html('<h5>effective segregation</h5>' + data_scores.scores_list[i]['Hostel Waste Segregation system(effective segregation)'][j]);
+                        $('#No-of-residents').html('<h5>No of residents</h5>' + data_scores.scores_list[i]['No of residents'][j]);
+
+                        $('#Total-Index').html('<h5>Total Index</h5>' + data_scores.scores_list[i]['Total Index'][j]);
+                    }
+                    
+                    document.getElementById("myChart").onclick = function(evt){
+                        var activePoints = myChart.getElementsAtEvent(evt);
+                        var firstPoint = activePoints[0];
+                        var label = myChart.data.labels[firstPoint._index];
+                        var value = myChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+                        console.log(label, value);
+                        i = month;
+                        hostel_map = {
+                            'Hostel 1': 0,
+                            'Hostel 2': 1,
+                            'Hostel 3': 2,
+                            'Hostel 4': 3,
+                            'Hostel 5': 4,
+                            'Hostel 6': 5,
+                            'Hostel 9': 8,
+                            'Hostel 10': 9,
+                            'Hostel 11': 10,
+                            'Hostel 12': 11,
+                            'Hostel 13': 12,
+                            'Hostel 14': 13,
+                            'Hostel 15': 14,
+                            'Hostel 16': 15,
+                            'Hostel 17': 16,
+                            'Hostel 18': 17
+                        }
+                        ele = document.getElementById('hosteldata')
+                        j = hostel_map[label];
+                        
+                        updateTable(j+1, month);
+                    };
+                </script>  
+                </div>
+            </div>
+            
+    </section>
+
+    <section id="resources" class="row" data-sr>
+        <div class="col-lg-6 order-2">
+            <img src="{% static 'images/hero-img.png' %}" class="img-fluid" alt="">
+        </div>
+        <div class="col-lg-6 order-1">
+            <h3>{% trans "Resources" %}</h3>
+            <p class="font-italic">
+                <ul>
+                    <li>
+                        {% trans "Educational materials and Fact sheets" %}
+                    </li>
+                    <li>
+                        {% trans "Tips on reducing energy consumption and waste" %}
+                    </li>
+                    <li>
+                        {% trans "Sharing of index formula that we have adopted" %}
+                        <ul>
+                            <li>
+                                {% trans "Rating = (Mandatory Indicator scores + Bonus Indicator scores)/Summation of mandatory credits" %}
+                            </li>
+                            <li>
+                                {% trans "Green Cup Index (GCI) = Quantitative rating*0.6 + Qualitative Rating*0.4 where quantitative rating is given " %}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </p>
+
+            <h4> {% trans "Tips on reducing energy conservation and waste" %}</h4>
+            <p>
+                {% trans "There are several measures that hostels can take to promote sustainability:" %}
+                <ol>
+                    <li>
+                        <b>{% trans "Better segregation" %}</b> - {% trans "Separate drop point boxes/bins for plastic, glass, paper and other materials. (There would be 1-2 PoRs every floor for monitoring proper segregation and resource recovery,i.e., identifying resources that can potentially be reused or recycled by another student)" %} 
+                    </li>
+                    <li>
+                        <b>{% trans "Conserving water" %}</b> - {% trans "Closing / replacing faulty taps and faucets" %}
+                    </li>
+                    <li>
+                        <b>{% trans "Zero waste day" %}</b> - {% trans "A dedicated day in a week for (a) reducing leftovers in mess (food served by mess staff instead of buffet system), (b) no laundry day" %}
+                    </li>
+                    <li>
+                        <b>{% trans "Energy efficiency" %}</b> - {% trans "Switch off lights and fans when not in use" %}
+                    </li>
+                    <li>
+                        <b>{% trans "Sustainable gala dinner" %}</b> - {% trans "Tying up with NGOs for Routing Mess Surplus to the needy. Banning single use plastics" %} 
+                    </li>
+                    <li>
+                        <b>{% trans "Educational content" %}</b> - {% trans "1 SDG per week initiative to be drafted and sent to students list via mail from hall manager" %}
+                    </li>
+                </ol>    
+            </p>
+        </div>
+    </section>
+
+    <section id="events" class="row" data-sr>
+        <div class="col-lg-12 order-1 align-items-center">
+            <h3>Events</h3>
+            <div class = "row align-items-center">
+                <iframe src="https://calendar.google.com/calendar/embed?src=23d4f94c0ed62592fe6ce678045380c7b1abbadeec2c07f4b49b59ad3061bf2d%40group.calendar.google.com&ctz=Asia%2FKolkata" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="row" data-sr>
+        <div classs = 'row'>
+        <div class="col-lg-7 order-1">
+            <h3>{% trans "Contact Us" %}</h3>
+            
+            <form id = "contact-form">
+                <div class="form-group">
+                    <label for="InputName">Name</label>
+                    <input type="text" class="form-control" id="InputName" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="InputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="InputMessage">Messsage</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+        </div>
+        <div class = 'row'>
+        <div class="col-lg-7 order-2">
+            <p class="font-italic" style="text-align: center;">
+                {% trans "Your input is valuable to us, and we appreciate hearing from you. We're constantly striving to improve, so please don't hesitate to share any feedback you have about our website or anything else we do. If you have any questions or would like to contribute to the planning of the Green Cup, feel free to get in touch with us." %}
+            </p>
+        </div>
+        <div class="col-lg-7 order-3" style = "margin-left: 20em;">
+            <p id = "follow_links">
+            {% trans "Follow us on:" %}
+                <a href="https://www.instagram.com/sustainabilitycell/" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/company/sustainabilitycell/" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                        <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                    </svg>
+                </a>
+            </p>
+        </div>
+        </div>
+            <script>
+                $(document).ready(function() {
+                    $('#contact-form').submit(function(e) {
+                        e.preventDefault();
+                        $.ajax({
+                            type: "POST",
+                            url: "https://formspree.io/f/xaylqzjy",
+                            data: $(this).serialize(),
+                            success: function(data) {
+                                alert("Thank you for your feedback!");
+                            }
+                        });
+                    });
+                });
+            </script>
+    </section>
+</div>
+                
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+$('#cup_main').scrollspy({ target: '#navbar-2' });
+var div_array = document.querySelectorAll('#cup_main > div');
+
+window.sr = ScrollReveal({reset: true});
+
+sr.reveal(div_array, {
+    duration: 1000,
+    origin: 'bottom',
+    distance: '100px',
+    reset: true,
+    easing: 'ease-in-out',
+    viewFactor: 0.2,
+    container: '#cup_main'
+});
+
+
+</script>
+
+{% endblock %}

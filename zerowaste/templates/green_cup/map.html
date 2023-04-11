@@ -177,11 +177,6 @@ table, th, td
         display: none;
         /* border: 1px #dadada solid; */
 }
-#checkboxes8 {
-        display: none;
-        /* border: 1px #dadada solid; */
-}
-
 #checkboxeszone {
         display: none;
         /* border: 1px #dadada solid; */
@@ -289,77 +284,51 @@ table, th, td
   
     <div id="side-bar" style="background-color:  rgba(255, 255, 255);">                <!-- side-bar container -->
         <div class="mobileShow">
-
             <div style="text-align: center">
                 <button style="display: inline-block ;position: relative; background: #000; opacity: 0.60;" id="closebutton" name="closebutton" class="btn btn-secondary"><span class="fa fa-bars"></span></button>
             </div>
-    
         </div>
-      <div>
-        <div class="text-center border">
-
-
-            <form id="projectList" style="width: 100%">
-
-                <form>
-                    <div class="multiselect">
-                      <div class="selectBox" onclick="showCheckboxes7()">
-                          <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; "> {% trans "IITB CAMPUS" %}</button>
-                          <div class="overSelect"></div>
-                      </div>
-                      <div id="checkboxes7">
-                          <div class="checkbox">
-                              <label><input type="checkbox" value="{zones}" id ="zone" onchange="getBoundaryru(this)"><span> {% trans "Zones" %}</span></label>
-                          </div> 
-                          <div class="checkbox">
-                            <label><input type="checkbox" value="{buildings}" id ="buildings" onchange="getBoundaryru(this)"><span> {% trans "Buildings" %}</span></label>
-                          </div>                       
-                      
-                      </div>
-                     <br>
-                     <div class="multiselect">
-                        <div class="selectBox" onclick="toggleCheckboxes8()">
-                          <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; "> "Index"</button>
-                          <div class="overSelect"></div>
-                      </div>
-                      <div id="checkboxes8">
-                          <div class="checkbox">
-                              <label><input type="checkbox" value="{tmi}" id ="tmi" onchange="getBoundaryru(this)"><span> "Total Monthly Index"</span></label>
-                          </div> 
-                          <div class="checkbox">
-                              <label><input type="checkbox" value="{mdw}" id ="mdw" onchange="getBoundaryru(this)"><span> "Mess dry waste"</span></label>
-                          </div> 
-                          <div class="checkbox">
-                              <label><input type="checkbox" value="{mww}" id ="mww" onchange="getBoundaryru(this)"><span> "Mess Wet waste</span></label>
-                          </div> 
-                          <div class="checkbox">
-                              <label><input type="checkbox" value="{hdw}" id ="hdw" onchange="getBoundaryru(this)"><span> "Hostel dry waste</span></label>
-                          </div> 
-                          <div class="checkbox">
-                              <label><input type="checkbox" value="{hww}" id ="hww" onchange="getBoundaryru(this)"><span> "Hostel wet waste"</span></label>
-                          </div> 
-                          <div class="checkbox">
-                              <label><input type="checkbox" value="{hew}" id ="hew" onchange="getBoundaryru(this)"><span> "Hostel E waste"</span></label>
-                          </div> 
-                          <div class="checkbox">
-                              <label><input type="checkbox" value="{elec}" id ="elec" onchange="getBoundaryru(this)"><span> {% trans "Electricity" %}</span></label>
-                          </div>
-                          <div class="month">
-                            <label><input type="range" class="form-range" min="0" max="11" step="1" id="customRange3" default="6.0" onchange="changeMonth(this)"><span id = "month">Jul</span></label>
-                          </div>                         					
-                      </div>
-                     <br>
-                     <br>
-
-                      <!-- <button type="button" class="btn btn-primary" id='locate'>{% trans "Your Location" %}</button> -->
+    <div>
+    <div class="text-center border">
+        <form id="projectList" style="width: 100%">
+            <form>
+                <div class="multiselect">
+                    <div class="selectBox" onclick="showCheckboxes3()">
+                        <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; "> {% trans "Geographical Hierarchy" %}</button>
+                        <div class="overSelect"></div>
                     </div>
-                   
-                </div> 
-                      
-            </form>
-
-        
-</form>
+                    <div id="checkboxes3">
+                        <div class="checkbox" id="boundary">
+                            <label><input type="checkbox" value="{wardS}" onchange="getBoundaryru(this)"><span> {% trans "Mumbai Suburban -  Ward S" %}</span></label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" value="{iitbound}" onchange="getBoundaryru(this)"><span> {% trans "IIT Boundary" %}</span></label>
+                        </div>
+                    </div>
+                </div>
+                
+                <br>
+                    
+                <div class="multiselect">
+                    <div class="selectBox" onclick="showCheckboxes7()">
+                        <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; "> {% trans "IITB CAMPUS" %}</button>
+                        <div class="overSelect"></div>
+                    </div>
+                    <div id="checkboxes7">
+                        <div class="checkbox">
+                            <label><input type="checkbox" value="{zones}" id ="zone" onchange="getBoundaryru(this)"><span> {% trans "Zones" %}</span></label>
+                        </div> 
+                        <div class="checkbox">
+                        <label><input type="checkbox" value="{buildings}" id ="buildings" onchange="getBoundaryru(this)"><span> {% trans "Buildings" %}</span></label>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <!-- <button type="button" class="btn btn-primary" id='locate'>{% trans "Your Location" %}</button> -->
+                </div>
+            </form> 
+        </form>
+</div>
 {% endblock map_content%}
 {% block extra_map_javascript%}
 
@@ -442,6 +411,28 @@ table, th, td
         <script>
             var expanded = false;
 
+            function showCheckboxes2() { //geographical heirarchy
+                var checkboxes = document.getElementById("checkboxes2");
+                if (!expanded) {
+                    checkboxes2.style.display = "block";
+                    expanded = true;
+                } else {
+                    checkboxes2.style.display = "none";
+                    expanded = false;
+                }
+            }
+            
+            function showCheckboxes3() { //geographical heirarchy
+                var checkboxes = document.getElementById("checkboxes3");
+                if (!expanded) {
+                    checkboxes3.style.display = "block";
+                    expanded = true;
+                } else {
+                    checkboxes3.style.display = "none";
+                    expanded = false;
+                }
+            }
+
             function showCheckboxes7() { //zonal geometry
                 var checkboxes = document.getElementById("checkboxes7");
                 
@@ -453,28 +444,8 @@ table, th, td
                     checkboxes7.style.display = "none";
                     expanded = false;
                 }
-            } 
-
-            function toggleCheckboxes8() { //index
-                var checkboxes = document.getElementById("checkboxes8");
-                
-                if (!expanded) {
-                    checkboxes8.style.display = "block";
-                    expanded = true;
-                } else {
-
-                    checkboxes8.style.display = "none";
-                    expanded = false;
-                }
-            } 
-
-            function changeMonth(obj) {
-                var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                var month = months[obj.value];
-                var elemet = document.getElementById("month");
-                elemet.innerHTML = month;
             }
-            
+
             function getBoundaryru(obj) {
                 let boundary = obj.value;
                 console.log(boundary)
@@ -623,57 +594,6 @@ table, th, td
             });
         }
 
-        var testdata = {
-            max: 1000,
-            data :[
-            {lat: 19.136497107036817, lng: 72.91415691375734, count: 531 }, //hostel1
-            {lat: 19.13712553558602, lng: 72.912654876709, count: 499 }, //hostel2
-            {lat: 19.136821457554422, lng: 72.9114854335785, count: 519  }, //hostel3
-            {lat: 19.13696336070552, lng: 72.9100799560547, count: 649 }, //hostel4
-            {lat: 19.135260514843615, lng: 72.90964007377626, count: 527 }, //hostle5
-            {lat: 19.13592949209794, lng: 72.90666818618776, count: 630 }, //hostel6
-            {lat: 19.135658353916185, lng: 72.9084759950638, count: 169  },  //hoste9
-            {lat: 19.129034335196486, lng: 72.91580379009248, count: 755  },  //hostel0
-            {lat: 19.133191482811714, lng: 72.91197359561922, count: 516 }, //hostel11
-            {lat: 19.135551925723156, lng: 72.90501058101655, count: 407 },   //hostel2
-            {lat: 19.13415314881135, lng: 72.90476918220521, count: 704  },   //hostel3
-            {lat: 19.134730905928553, lng: 72.90596544742586, count: 793 },  //hostel4
-            {lat: 19.137916135847366, lng: 72.91399598121644, count: 555 }, //hostel15
-            {lat: 19.13779450528431, lng: 72.91307330131532, count: 659 }, //hostel16 
-            {lat: 19.134305190353963, lng: 72.90835261344911, count: 996 },  //hostel17
-            {lat: 19.13660100063135, lng: 72.90933966636659, count: 955 }//hostel18
-        ]}
-
-        var cfg = {
-        // radius should be small ONLY if scaleRadius is true (or small radius is intended)
-        // if scaleRadius is false it will be the constant radius used in pixels
-        "radius": 2,
-        "maxOpacity": .8,
-        // scales the radius based on map zoom
-        "scaleRadius": true,
-        // if set to false the heatmap uses the global maximum for colorization
-        // if activated: uses the data maximum within the current map boundaries
-        //   (there will always be a red spot with useLocalExtremas true)
-        "useLocalExtrema": true,
-        // which field name in your data represents the latitude - default "lat"
-        latField: 'lat',
-        // which field name in your data represents the longitude - default "lng"
-        lngField: 'lng',
-        // which field name in your data represents the data value - default "value"
-        valueField: 'count'
-        };
-
-
-        var heatmapLayer = new HeatmapOverlay(cfg);
-
-        //mymap.addLayer(heatmapLayer);
-        var map = new L.Map('map-canvas', {
-        center: new L.LatLng(25.6586, -80.3568),
-        zoom: 4,
-        layers: [baseLayer, heatmapLayer]
-        });
-
-        heatmapLayer.setData(testData);
             
 
 

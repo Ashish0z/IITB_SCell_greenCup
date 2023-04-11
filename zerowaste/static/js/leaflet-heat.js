@@ -1,32 +1,23 @@
-/*/*
+/*
 * Leaflet Heatmap Overlay
 *
-* Copyright (c) 2008-2016, Patrick Wied (https://www.patrick-wied.at)
+* Copyright (c) 2014, Patrick Wied (http://www.patrick-wied.at)
 * Dual-licensed under the MIT (http://www.opensource.org/licenses/mit-license.php)
 * and the Beerware (http://en.wikipedia.org/wiki/Beerware) license.
 */
-;(function (name, context, factory) {
+
+(function (name, context, factory) {
+
   // Supports UMD. AMD, CommonJS/Node.js and browser context
   if (typeof module !== "undefined" && module.exports) {
-    module.exports = factory(
-      require('heatmap.js'),
-      require('leaflet')
-    );
+    module.exports = factory();
   } else if (typeof define === "function" && define.amd) {
-    define(['heatmap.js', 'leaflet'], factory);
+    define(factory);
   } else {
-    // browser globals
-    if (typeof window.h337 === 'undefined') {
-      throw new Error('heatmap.js must be loaded before the leaflet heatmap plugin');
-    }
-    if (typeof window.L === 'undefined') {
-      throw new Error('Leaflet must be loaded before the leaflet heatmap plugin');
-    }
-    context[name] = factory(window.h337, window.L);
+    context[name] = factory();
   }
 
-})("HeatmapOverlay", this, function (h337, L) {
-  'use strict';
+})("HeatmapOverlay", this, function () {
 
   // Leaflet < 0.8 compatibility
   if (typeof L.Layer === 'undefined') {
@@ -46,6 +37,7 @@
 
     onAdd: function (map) {
       var size = map.getSize();
+      var h337 = typeof require !== 'undefined' ? require('heatmap.js') : window.h337;
 
       this._map = map;
 
@@ -56,7 +48,7 @@
       this._el.style.height = size.y + 'px';
       this._el.style.position = 'absolute';
 
-      this._origin = this._map.layerPointToLatLng(new L.Point(0, 0));
+      this._resetOrigin();
 
       map.getPanes().overlayPane.appendChild(this._el);
 
@@ -66,7 +58,7 @@
 
       // this resets the origin and redraws whenever
       // the zoom changed or the map has been moved
-      map.on('moveend', this._reset, this);
+      map.on('moveend', this._resetOrigin, this);
       this._draw();
     },
 
@@ -79,7 +71,7 @@
       // remove layer's DOM elements and listeners
       map.getPanes().overlayPane.removeChild(this._el);
 
-      map.off('moveend', this._reset, this);
+      map.off('moveend', this._resetOrigin, this);
     },
     _draw: function() {
       if (!this._map) { return; }
@@ -206,7 +198,7 @@
         this._draw();
       }
     },
-    _reset: function () {
+    _resetOrigin: function () {
       this._origin = this._map.layerPointToLatLng(new L.Point(0, 0));
       
       var size = this._map.getSize();
@@ -216,8 +208,6 @@
 
         this._el.style.width = this._width + 'px';
         this._el.style.height = this._height + 'px';
-
-        this._heatmap._renderer.setDimensions(this._width, this._height);
       }
       this._draw();
     } 
@@ -226,11 +216,11 @@
   HeatmapOverlay.CSS_TRANSFORM = (function() {
     var div = document.createElement('div');
     var props = [
-      'transform',
-      'WebkitTransform',
-      'MozTransform',
-      'OTransform',
-      'msTransform'
+    'transform',
+    'WebkitTransform',
+    'MozTransform',
+    'OTransform',
+    'msTransform'
     ];
 
     for (var i = 0; i < props.length; i++) {
@@ -239,6 +229,7 @@
         return prop;
       }
     }
+
     return props[0];
   })();
 

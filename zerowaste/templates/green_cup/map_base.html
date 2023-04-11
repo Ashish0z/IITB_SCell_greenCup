@@ -87,9 +87,6 @@
 <script type='text/javascript' src='https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js'></script>
 
 
-<script src="{% static 'js/leaflet-heat.js' %}"></script>
-<script src="{& static 'js/heatmap.js' %}"></script>
-
 <!-- leaflet lagend graphic -->
 
 <script src="{% static 'leaflet-legend-graphics/leaflet.wmslegend.js' %}"></script>
@@ -118,95 +115,153 @@
 {% block extra_map_css%} {% endblock extra_map_css%} {% endblock extra_css%} {% block content%}
 <div id="mapdiv" class="col-md-12"></div>
 {% block map_content%} {% endblock map_content%} {% endblock content%} {% block extra_javascript %}
-
+<script src="{% static '/js/heatmap.js' %}"></script>
+<script src="{% static '/js/leaflet-heat.js' %}"></script>
 <script>
-    var mymap;
+    // var mymap;
 
-    var source = L.wms.source(
-        "https://geoserver2.communitygis.net/geoserver/wms", {
-            "format": "image/png",
-            "transparent": "true"
-        }
-    );
+    // var source = L.wms.source(
+    //     "https://geoserver2.communitygis.net/geoserver/wms", {
+    //         "format": "image/png",
+    //         "transparent": "true"
+    //     }
+    // );
 
-    mymap = L.map('mapdiv', {
-        // center:[19.7515,75.7139],
-        center: [19.1342, 72.9143],
-        zoom: 15,
-        zoomControl: false,
-        attributionControl: false,
-        messagebox: true,
-        contextmenu: true,
-        measureControl: false
-    });
-    mymap.messagebox.options.timeout = 5000;
-    mymap.messagebox.setPosition("bottomright");
-    lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
-    lyrOSM2 = L.tileLayer.provider('OpenStreetMap.Mapnik');
-    lyrImagery = L.tileLayer.provider('Esri.WorldImagery');
-    mymap.addLayer(lyrOSM);
-    var miniMap = new L.Control.MiniMap(lyrOSM2, {
-        toggleDisplay: true
-    }).addTo(mymap);
-    //  var miniMap = new L.Control.MiniMap(lyrOSM).addTo(mymap);
+    // mymap = L.map('mapdiv', {
+    //     // center:[19.7515,75.7139],
+    //     center: [19.7515, 75.7139],
+    //     zoom: 7,
+    //     zoomControl: false,
+    //     attributionControl: false,
+    //     messagebox: true,
+    //     contextmenu: true,
+    //     measureControl: false
+    // });
+    // mymap.messagebox.options.timeout = 5000;
+    // mymap.messagebox.setPosition("bottomright");
+    // lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
+    // lyrOSM2 = L.tileLayer.provider('OpenStreetMap.Mapnik');
+    // lyrImagery = L.tileLayer.provider('Esri.WorldImagery');
+    // mymap.addLayer(lyrOSM);
+    // var miniMap = new L.Control.MiniMap(lyrOSM2, {
+    //     toggleDisplay: true
+    // }).addTo(mymap);
+    // //  var miniMap = new L.Control.MiniMap(lyrOSM).addTo(mymap);
 
-    function round(value, precision) {
-        var multiplier = Math.pow(10, precision || 0);
-        return Math.round(value * multiplier) / multiplier;
-    }
-
-
-    function copyToClipboard(text) {
-        var dummy = document.createElement("textarea");
-        // dummy.style.display = 'none'
-        document.body.appendChild(dummy);
-        dummy.value = text;
-        dummy.select();
-        document.execCommand("copy");
-        document.body.removeChild(dummy);
-    }
-
-    mymap.on('contextmenu', function(e) {
-        copyToClipboard(e.latlng.lat + "," + e.latlng.lng);
-        mymap.messagebox.show("<h6>Latitude:<b>" + round(e.latlng.lat, 4) + "</b> Longitude:<b>" + round(e.latlng.lng, 4) + "</b> copied to clipboard</h6>");
-    });
+    // function round(value, precision) {
+    //     var multiplier = Math.pow(10, precision || 0);
+    //     return Math.round(value * multiplier) / multiplier;
+    // }
 
 
+    // function copyToClipboard(text) {
+    //     var dummy = document.createElement("textarea");
+    //     // dummy.style.display = 'none'
+    //     document.body.appendChild(dummy);
+    //     dummy.value = text;
+    //     dummy.select();
+    //     document.execCommand("copy");
+    //     document.body.removeChild(dummy);
+    // }
 
-    $('.select').click(function() {
-        $(this).toggleClass('highlight')
-    })
-</script>
-<script>
-    $("#closebutton").click(function() {
-        ctlSidebar.toggle();
-    });
+    // mymap.on('contextmenu', function(e) {
+    //     copyToClipboard(e.latlng.lat + "," + e.latlng.lng);
+    //     mymap.messagebox.show("<h6>Latitude:<b>" + round(e.latlng.lat, 4) + "</b> Longitude:<b>" + round(e.latlng.lng, 4) + "</b> copied to clipboard</h6>");
+    // });
 
 
 
-    objBasemaps = {
-        "Open Street Maps": lyrOSM,
-        "Imagery": lyrImagery
+    // $('.select').click(function() {
+    //     $(this).toggleClass('highlight')
+    // })
+
+    // $("#closebutton").click(function() {
+    //     ctlSidebar.toggle();
+    // });
+
+    // objBasemaps = {
+    //     "Open Street Maps": lyrOSM,
+    //     "Imagery": lyrImagery
+    // };
+
+    // objOverlays = {};
+
+    // // var ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
+    // var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
+    // var ctlPan = L.control.pan().addTo(mymap);
+
+    // var ctlEasybutton = L.easyButton('fa fa fa-bars', function() {
+    //     ctlSidebar.toggle();
+    // }).addTo(mymap);
+    // ctlSidebar.show();
+
+    // var ctlZoomslider = L.control.zoomslider({
+    //     position: 'topright'
+    // }).addTo(mymap);
+
+    // ctlAttribute = L.control.attribution({
+    //     position: 'bottomleft'
+    // }).addTo(mymap);
+    // ctlAttribute.addAttribution('&copy; <a href="http://www.makerghat.org">makerGHAT</a>');
+
+    window.onload = function() {
+      var testdata = {
+            max: 10,
+            data :[
+            {lat: 19.136497107036817, lng: 72.91415691375734, count: 5.31 }, //hostel1
+            {lat: 19.13712553558602, lng: 72.912654876709, count: 4.99 }, //hostel2
+            {lat: 19.136821457554422, lng: 72.9114854335785, count: 5.19  }, //hostel3
+            {lat: 19.13696336070552, lng: 72.9100799560547, count: 6.49 }, //hostel4
+            {lat: 19.135260514843615, lng: 72.90964007377626, count: 5.27 }, //hostle5
+            {lat: 19.13592949209794, lng: 72.90666818618776, count: 6.30 }, //hostel6
+            {lat: 19.135658353916185, lng: 72.9084759950638, count: 1.69  },  //hoste9
+            {lat: 19.129034335196486, lng: 72.91580379009248, count: 7.55  },  //hostel0
+            {lat: 19.133191482811714, lng: 72.91197359561922, count: 5.16 }, //hostel11
+            {lat: 19.135551925723156, lng: 72.90501058101655, count: 4.07 },   //hostel2
+            {lat: 19.13415314881135, lng: 72.90476918220521, count: 7.04  },   //hostel3
+            {lat: 19.134730905928553, lng: 72.90596544742586, count: 7.93 },  //hostel4
+            {lat: 19.137916135847366, lng: 72.91399598121644, count: 5.55 }, //hostel15
+            {lat: 19.13779450528431, lng: 72.91307330131532, count: 6.59 }, //hostel16 
+            {lat: 19.134305190353963, lng: 72.90835261344911, count: 9.96 },  //hostel17
+            {lat: 19.13660100063135, lng: 72.90933966636659, count: 9.55 }//hostel18
+        ]};
+
+        var baseLayer = L.tileLayer(
+          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+            maxZoom: 18
+          }
+        );
+
+        var cfg = {
+          // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+          "radius": 2,
+          "maxOpacity": .8,
+          // scales the radius based on map zoom
+          "scaleRadius": true,
+          // if set to false the heatmap uses the global maximum for colorization
+          // if activated: uses the data maximum within the current map boundaries
+          //   (there will always be a red spot with useLocalExtremas true)
+          "useLocalExtrema": true,
+          // which field name in your data represents the latitude - default "lat"
+          latField: 'lat',
+          // which field name in your data represents the longitude - default "lng"
+          lngField: 'lng',
+          // which field name in your data represents the data value - default "value"
+          valueField: 'count'
+        };
+
+
+        var heatmapLayer = new HeatmapOverlay(cfg);
+
+        var map = new L.Map('mapdiv', {
+          center: new L.LatLng(19.7515, 75.7139),
+          zoom: 14,
+          layers: [baseLayer, heatmapLayer]
+        });
+
+        heatmapLayer.setData(testdata);
     };
 
-    objOverlays = {};
-
-    // var ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
-    var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
-    var ctlPan = L.control.pan().addTo(mymap);
-
-    var ctlEasybutton = L.easyButton('fa fa fa-bars', function() {
-        ctlSidebar.toggle();
-    }).addTo(mymap);
-    ctlSidebar.show();
-
-    var ctlZoomslider = L.control.zoomslider({
-        position: 'topright'
-    }).addTo(mymap);
-
-    ctlAttribute = L.control.attribution({
-        position: 'bottomleft'
-    }).addTo(mymap);
-    ctlAttribute.addAttribution('&copy; <a href="http://www.makerghat.org">makerGHAT</a>');
 </script>
 {% block extra_map_javascript%} {% endblock extra_map_javascript%} {% endblock extra_javascript %}
